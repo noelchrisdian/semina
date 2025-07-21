@@ -6,7 +6,10 @@
 
 import { app } from '../app.js';
 import { createServer } from 'http';
+import { db } from '../app/db/index.js';
 import debugModule from 'debug';
+import dotenv from 'dotenv';
+dotenv.config();
 const debug = debugModule('semina:server');
 
 /**
@@ -20,15 +23,19 @@ app.set('port', port);
  * Create HTTP server.
  */
 
+db.on('error', () => console.log(`Connection error: can't connect to MongoDB`));
+
 const server = createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+db.on('open', () => {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+})
 
 /**
  * Normalize a port into a number, string, or false.
