@@ -1,10 +1,10 @@
-import { categoryModel } from "./model.js";
+import { StatusCodes } from "http-status-codes";
+import { createCategory, deleteCategory, findCategory, getCategories, updateCategory } from "../../services/mongoose/categories.js";
 
 const create = async (req, res, next) => {
     try {
-        const { name } = req.body;
-        const category = await categoryModel.create({ name });
-        res.status(201).json({
+        const category = await createCategory(req);
+        res.status(StatusCodes.CREATED).json({
             data: category
         })
     } catch (error) {
@@ -14,8 +14,8 @@ const create = async (req, res, next) => {
 
 const index = async (req, res, next) => {
     try {
-        const categories = await categoryModel.find();
-        res.status(200).json({
+        const categories = await getCategories();
+        res.status(StatusCodes.OK).json({
             data: categories
         })
     } catch (error) {
@@ -25,14 +25,9 @@ const index = async (req, res, next) => {
 
 const find = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const category = await categoryModel.findOne({ _id: id });
+        const category = await findCategory(req);
 
-        if (!category) {
-            return res.status(404).json({ message: 'Category not found' });
-        }
-
-        res.status(200).json({
+        res.status(StatusCodes.OK).json({
             data: category
         })
     } catch (error) {
@@ -42,11 +37,9 @@ const find = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const { name } = req.body;
 
         /*
-        const category = await categoryModel.findOne({ _id: id });
+        const category = await Categories.findOne({ _id: id });
 
         if (!category) {
             return res.status(404).json({ message: 'Category not found' });
@@ -56,13 +49,9 @@ const update = async (req, res, next) => {
         await category.save();
         */
         
-        const category = await categoryModel.findByIdAndUpdate(
-            id,
-            { name },
-            { runValidators: true, new: true }
-        )
+        const category = await updateCategory(req);
 
-        res.status(200).json({
+        res.status(StatusCodes.OK).json({
             data: category
         })
     } catch (error) {
@@ -72,9 +61,8 @@ const update = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const category = await categoryModel.findByIdAndDelete(id);
-        res.status(200).json({
+        const category = await deleteCategory(req);
+        res.status(StatusCodes.OK).json({
             message: 'Category has been deleted',
             data: category,
         })

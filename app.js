@@ -2,6 +2,8 @@ import express, { json, urlencoded } from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { router as categorieRouter } from './app/api/categories/router.js';
+import { errorHandler } from './app/middlewares/handle error.js';
+import { notFound } from './app/middlewares/not found.js';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
@@ -24,5 +26,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/categories', categorieRouter);
+
+app.use(errorHandler);
+app.use(notFound);
 
 export { app };
