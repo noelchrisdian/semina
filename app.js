@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { router as categorieRouter } from './app/api/categories/router.js';
 import { router as imageRouter } from './app/api/images/router.js';
+import { router as talentRouter } from './app/api/talents/router.js';
 import { errorHandler } from './app/middlewares/handle error.js';
 import { notFound } from './app/middlewares/not found.js';
 import cookieParser from 'cookie-parser';
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 
 app.use('/categories', categorieRouter);
 app.use('/images', imageRouter);
+app.use('/talents', talentRouter);
 
 app.use(errorHandler);
 app.use(notFound);
