@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { create } from "./controller.js";
+import { authenticated } from "../../middlewares/auth.js";
+import { createOrganizer } from './controller.js';
 
 const router = Router();
 
-router.post('/', create);
+router.post('/', authenticated, createOrganizer);
 
 export { router };

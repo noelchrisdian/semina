@@ -11,14 +11,14 @@ const createOrganizer = async (req) => {
         role,
         organizer
     } = req.body;
-    
+
     if (password !== confirmPassword) {
         throw new BadRequest(`Password confirmation failed`);
     }
-    
+
     const data = await Organizers.create({ organizer });
     const user = await Users.create({
-        name, 
+        name,
         email,
         password,
         role,
@@ -29,4 +29,27 @@ const createOrganizer = async (req) => {
     return user;
 }
 
-export { createOrganizer };
+const createUser = async (req) => {
+    const {
+        email,
+        password,
+        confirmPassword,
+        name,
+        role
+    } = req.body;
+
+    if (password !== confirmPassword) {
+        throw new BadRequest(`Password confirmation failed`);
+    }
+
+    return Users.create({
+        email,
+        password, 
+        confirmPassword,
+        organizer: req.user.organizer,
+        name,
+        role
+    })
+}
+
+export { createOrganizer, createUser };

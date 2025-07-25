@@ -6,6 +6,7 @@ import { router as imageRouter } from './app/api/images/router.js';
 import { router as talentRouter } from './app/api/talents/router.js';
 import { router as eventRouter } from './app/api/events/router.js';
 import { router as organizerRouter } from './app/api/organizers/router.js';
+import { router as userRouter } from './app/api/users/router.js';
 import { router as authRouter } from './app/api/auth/router.js';
 import { errorHandler } from './app/middlewares/handle error.js';
 import { notFound } from './app/middlewares/not found.js';
@@ -35,6 +36,7 @@ app.use('/images', imageRouter);
 app.use('/talents', talentRouter);
 app.use('/events', eventRouter);
 app.use('/organizers', organizerRouter);
+app.use('/users', userRouter);
 app.use('/auth', authRouter);
 
 app.use(errorHandler);
