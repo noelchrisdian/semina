@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { createEvent, deleteEvent, findEvent, getEvents, updateEvent } from "../../services/mongoose/events.js";
+import { changeStatusEvent, createEvent, deleteEvent, findEvent, getEvents, updateEvent } from "../../services/mongoose/events.js";
 
 const create = async (req, res, next) => {
     try {
@@ -56,4 +56,15 @@ const remove = async (req, res, next) => {
     }
 }
 
-export { create, index, find, update, remove };
+const changeStatus = async (req, res, next) => {
+    try {
+        const event = await changeStatusEvent(req);
+        res.status(StatusCodes.OK).json({
+            data: event
+        })
+    } catch (error) {
+        next(error);        
+    }
+}
+
+export { create, changeStatus, index, find, update, remove };

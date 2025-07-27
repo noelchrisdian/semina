@@ -1,7 +1,8 @@
 import { StatusCodes } from "http-status-codes";
 import {
     createOrganizer as serviceCreateOrganizer,
-    createUser as serviceCreateUser
+    createUser as serviceCreateUser,
+    getUsers as serviceGetUsers
 } from "../../services/mongoose/users.js";
 
 const createOrganizer = async (req, res, next) => {
@@ -26,4 +27,15 @@ const createUser = async (req, res, next) => {
     }
 }
 
-export { createOrganizer, createUser };
+const getUsers = async (req, res, next) => {
+    try {
+        const users = await serviceGetUsers(req);
+        res.status(StatusCodes.OK).json({
+            data: users
+        })
+    } catch (error) {
+        next(error);        
+    }
+}
+
+export { createOrganizer, createUser, getUsers };

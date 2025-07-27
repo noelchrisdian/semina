@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { authenticated, authorize } from "../../middlewares/auth.js";
-import { createOrganizer } from './controller.js';
+import { index } from "./controller.js";
 
 const router = Router();
 
-router.post(
+router.get(
     '/',
     authenticated,
-    authorize('owner'),
-    createOrganizer
+    authorize('organizer', 'admin', 'owner'),
+    index
 )
 
 export { router };

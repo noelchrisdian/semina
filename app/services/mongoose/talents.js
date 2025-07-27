@@ -6,7 +6,7 @@ import { talentModel as Talents } from '../../api/talents/model.js';
 const getTalents = async (req) => {
     const { keyword } = req.query;
 
-    let condition = {};
+    let condition = { organizer: req.user.organizer };
 
     if (keyword) {
         condition = { ...condition, name: { $regex: keyword, $options: 'i' } };
@@ -24,19 +24,19 @@ const createTalent = async (req) => {
 
     await checkingImage(image);
     
-    const check = await Talents.findOne({ name });
+    const check = await Talents.findOne({ name, organizer: req.user.organizer });
 
     if (check) {
         throw new BadRequest(`Talent existed`);
     }
 
-    return await Talents.create({ name, role, image });
+    return await Talents.create({ name, role, image, organizer: req.user.organizer });
 }
 
 const findTalent = async (req) => {
     const { id } = req.params;
 
-    const talent = await Talents.findOne({ _id: id })
+    const talent = await Talents.findOne({ _id: id, organizer: req.user.organizer })
         .populate({
             path: 'image',
             select: '_id name'
@@ -61,7 +61,7 @@ const updateTalent = async (req) => {
         throw new BadRequest(`Talent existed`);
     }
 
-    const talent = await Talents.findByIdAndUpdate(id, { name, role, image }, { runValidators: true, new: true });
+    const talent = await Talents.findByIdAndUpdate(id, { name, role, image, organizer: req.user.organizer }, { runValidators: true, new: true });
 
     if (!talent) {
         throw new NotFound(`This talent doesn't exist`);
@@ -72,7 +72,7 @@ const updateTalent = async (req) => {
 
 const deleteTalent = async (req) => {
     const { id } = req.params;
-    const talent = await Talents.findOne({ _id: id });
+    const talent = await Talents.findOne({ _id: id, organizer: req.user.organizer });
 
     if (!talent) {
         throw new NotFound(`This talent doesn't exist`);

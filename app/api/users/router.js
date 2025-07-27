@@ -1,9 +1,21 @@
 import { Router } from "express";
-import { authenticated } from '../../middlewares/auth.js';
-import { createUser } from "../organizers/controller.js";
+import { authenticated, authorize } from '../../middlewares/auth.js';
+import { createUser, getUsers } from "../organizers/controller.js";
 
 const router = Router();
 
-router.post('/', authenticated, createUser);
+router
+    .get(
+        '/',
+        authenticated,
+        authorize('owner'),
+        getUsers
+    )
+    .post(
+    '/',
+    authenticated,
+    authorize('organizer'),
+    createUser
+)
 
 export { router };

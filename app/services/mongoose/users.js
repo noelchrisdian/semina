@@ -1,6 +1,6 @@
 import { BadRequest } from '../../errors/bad request.js';
-import { userModel as Users } from "../../api/users/model.js";
 import { organizerModel as Organizers } from "../../api/organizers/model.js";
+import { userModel as Users } from "../../api/users/model.js";
 
 const createOrganizer = async (req) => {
     const {
@@ -52,4 +52,8 @@ const createUser = async (req) => {
     })
 }
 
-export { createOrganizer, createUser };
+const getUsers = async () => {
+    return await Users.find();
+}
+
+export { createOrganizer, createUser, getUsers };

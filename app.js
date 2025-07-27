@@ -1,13 +1,14 @@
 import express, { json, urlencoded } from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { router as categorieRouter } from './app/api/categories/router.js';
+import { router as categoryRouter } from './app/api/categories/router.js';
 import { router as imageRouter } from './app/api/images/router.js';
 import { router as talentRouter } from './app/api/talents/router.js';
 import { router as eventRouter } from './app/api/events/router.js';
 import { router as organizerRouter } from './app/api/organizers/router.js';
 import { router as userRouter } from './app/api/users/router.js';
 import { router as authRouter } from './app/api/auth/router.js';
+import { router as orderRouter } from './app/api/orders/route.js';
 import { errorHandler } from './app/middlewares/handle error.js';
 import { notFound } from './app/middlewares/not found.js';
 import cookieParser from 'cookie-parser';
@@ -31,13 +32,14 @@ app.get('/', (req, res) => {
   })
 })
 
-app.use('/categories', categorieRouter);
+app.use('/categories', categoryRouter);
 app.use('/images', imageRouter);
 app.use('/talents', talentRouter);
 app.use('/events', eventRouter);
 app.use('/organizers', organizerRouter);
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
+app.use('/orders', orderRouter);
 
 app.use(errorHandler);
 app.use(notFound);

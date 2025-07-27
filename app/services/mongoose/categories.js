@@ -8,7 +8,7 @@ const getCategories = async (req) => {
 
 const createCategory = async (req) => {
     const { name } = req.body;
-    const check = await Categories.findOne({ name });
+    const check = await Categories.findOne({ name, organizer: req.user.organizer });
 
     if (check) {
         throw new BadRequest('Category existed');
