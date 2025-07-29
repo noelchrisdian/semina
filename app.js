@@ -9,6 +9,7 @@ import { router as organizerRouter } from './app/api/organizers/router.js';
 import { router as userRouter } from './app/api/users/router.js';
 import { router as authRouter } from './app/api/auth/router.js';
 import { router as orderRouter } from './app/api/orders/route.js';
+import { router as participantRouter } from './app/api/participants/router.js';
 import { errorHandler } from './app/middlewares/handle error.js';
 import { notFound } from './app/middlewares/not found.js';
 import cookieParser from 'cookie-parser';
@@ -40,6 +41,7 @@ app.use('/organizers', organizerRouter);
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/orders', orderRouter);
+app.use('/participants', participantRouter);
 
 app.use(errorHandler);
 app.use(notFound);

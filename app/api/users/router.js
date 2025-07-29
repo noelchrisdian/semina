@@ -12,10 +12,10 @@ router
         getUsers
     )
     .post(
-    '/',
-    authenticated,
-    authorize('organizer'),
-    createUser
-)
+        '/',
+        authenticated,
+        authorize('organizer'),
+        createUser
+    )
 
 export { router };
