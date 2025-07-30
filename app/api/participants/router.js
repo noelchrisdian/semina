@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticatedParticipant } from "../../middlewares/auth.js";
-import { active, getDashboard, getDetailPage, getLandingPages, signin, signup } from "./controller.js";
+import { active, checkout, getDashboard, getDetailPage, getLandingPages, signin, signup } from "./controller.js";
 
 const router = Router();
 
@@ -14,6 +14,11 @@ router
         '/orders',
         authenticatedParticipant,
         getDashboard
+    )
+    .post(
+        '/checkout',
+        authenticatedParticipant,
+        checkout
     )
 
 export { router };

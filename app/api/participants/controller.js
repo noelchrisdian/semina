@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { activateParticipant, getEvents, getEvent, getOrders, loginParticipant, registerParticipant } from "../../services/mongoose/participants.js";
+import { activateParticipant, getEvents, getEvent, getOrders, loginParticipant, registerParticipant, checkoutOrder } from "../../services/mongoose/participants.js";
 
 const signup = async (req, res, next) => {
     try {
@@ -67,8 +67,20 @@ const getDashboard = async (req, res, next) => {
     }
 }
 
+const checkout = async (req, res, next) => {
+    try {
+        const order = await checkoutOrder(req);
+        res.status(StatusCodes.CREATED).json({
+            data: order
+        })
+    } catch (error) {
+        next(error);        
+    }
+}
+
 export {
     active,
+    checkout,
     getLandingPages,
     getDetailPage,
     getDashboard,

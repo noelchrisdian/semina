@@ -9,7 +9,7 @@ const createImage = async (req) => {
     })
 }
 
-const checkingImage = async (id) => {
+const checkImage = async (id) => {
     const image = await Images.findOne({ _id: id });
 
     if (!image) {
@@ -19,4 +19,4 @@ const checkingImage = async (id) => {
     return image;
 }
 
-export { createImage, checkingImage };
+export { createImage, checkImage };

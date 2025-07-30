@@ -1,5 +1,5 @@
 import { BadRequest } from '../../errors/bad request.js';
-import { checkingImage } from './images.js';
+import { checkImage } from './images.js';
 import { NotFound } from '../../errors/not found.js';
 import { talentModel as Talents } from '../../api/talents/model.js';
 
@@ -22,7 +22,7 @@ const getTalents = async (req) => {
 const createTalent = async (req) => {
     const { name, role, image } = req.body;
 
-    await checkingImage(image);
+    await checkImage(image);
     
     const check = await Talents.findOne({ name, organizer: req.user.organizer });
 
@@ -54,7 +54,7 @@ const updateTalent = async (req) => {
     const { id } = req.params;
     const { name, role, image } = req.body;
 
-    await checkingImage(image);
+    await checkImage(image);
 
     const check = await Talents.findOne({ name, _id: { $ne: id } });
     if (check) {
@@ -82,7 +82,7 @@ const deleteTalent = async (req) => {
     return talent;
 }
 
-const checkingTalent = async (id) => {
+const checkTalent = async (id) => {
     const talent = await Talents.findOne({ _id: id });
 
     if (!talent) {
@@ -98,5 +98,5 @@ export {
     findTalent,
     updateTalent,
     deleteTalent,
-    checkingTalent
+    checkTalent
 }

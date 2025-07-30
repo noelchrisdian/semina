@@ -1,6 +1,6 @@
-import { checkingCategory } from "./categories.js";
-import { checkingImage } from "./images.js";
-import { checkingTalent } from "./talents.js";
+import { checkCategory } from "./categories.js";
+import { checkImage } from "./images.js";
+import { checkTalent } from "./talents.js";
 import { BadRequest } from '../../errors/bad request.js';
 import { eventModel as Events } from "../../api/events/model.js";
 import { NotFound } from "../../errors/not found.js";
@@ -54,9 +54,9 @@ const createEvent = async (req) => {
         talent
     } = req.body;
 
-    await checkingImage(image);
-    await checkingCategory(category);
-    await checkingTalent(talent);
+    await checkImage(image);
+    await checkCategory(category);
+    await checkTalent(talent);
 
     const check = await Events.findOne({ title });
 
@@ -115,9 +115,9 @@ const updateEvent = async (req) => {
         talent
     } = req.body;
 
-    await checkingImage(image);
-    await checkingCategory(category);
-    await checkingTalent(talent);
+    await checkImage(image);
+    await checkCategory(category);
+    await checkTalent(talent);
 
     const checkEvent = await Events.findOne({ _id: id });
     if (!checkEvent) {

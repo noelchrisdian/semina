@@ -61,7 +61,7 @@ const deleteCategory = async (req) => {
     return category;
 }
 
-const checkingCategory = async (id) => {
+const checkCategory = async (id) => {
     const category = await Categories.findOne({ _id: id });
     if (!category) {
         throw new NotFound(`This category doesn't exist`);
@@ -76,5 +76,5 @@ export {
     findCategory,
     updateCategory,
     deleteCategory,
-    checkingCategory
+    checkCategory
 }

@@ -89,7 +89,7 @@ const orderSchema = Schema({
             type: String,
             required: [true, 'Tagline is required']
         },
-        keypoint: {
+        keyPoint: {
             type: [String]
         },
         venueName: {
