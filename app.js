@@ -14,6 +14,7 @@ import { router as paymentRouter } from './app/api/payments/router.js';
 import { errorHandler } from './app/middlewares/handle error.js';
 import { notFound } from './app/middlewares/not found.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import logger from 'morgan';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -22,6 +23,7 @@ const __dirname = dirname(__filename);
 const app = express();
 
 app
+  .use(cors())
   .use(logger('dev'))
   .use(json())
   .use(urlencoded({ extended: false }))
