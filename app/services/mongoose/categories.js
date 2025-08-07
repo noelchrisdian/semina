@@ -48,16 +48,14 @@ const updateCategory = async (req) => {
 
 const deleteCategory = async (req) => {
     const { id } = req.params;
-    const category = await Categories.findOne({
+    const category = await Categories.findOneAndDelete({
         _id: id,
         organizer: req.user.organizer
     })
-
     if (!category) {
         throw new NotFound(`This category doesn't exist`);
     }
 
-    await category.remove();
     return category;
 }
 

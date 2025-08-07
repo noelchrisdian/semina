@@ -1,15 +1,17 @@
-import axios from "axios";
-import { CategoryForm } from "./Form";
 import { Container } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { CategoryForm } from "./Form";
 import { CustomAlert } from "../../components/Alert";
 import { CustomBreadcrumb } from "../../components/Breadcrumb";
-import { CustomNavbar } from "../../components/Navbar";
-import { Navigate, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { postData } from "../../utils/fetch";
+import { setNotif } from "../../redux/notif/action";
 
 const CreateCategory = () => {
-	const token = localStorage.getItem("token");
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
 	const [form, setForm] = useState({
 		name: ""
 	})
@@ -28,16 +30,16 @@ const CreateCategory = () => {
 		setLoading(true);
 
 		try {
-			await axios.post("/api/categories", form, {
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			})
+			const response = await postData('/categories', form);
+			dispatch(setNotif(
+				true,
+				'success',
+				`Successfully added ${response.data.data.name} category`
+			))
 			navigate("/categories");
 			setLoading(false);
 		} catch (error) {
 			setLoading(false);
-			console.log(error);
 			setAlert({
 				...alert,
 				status: true,
@@ -46,36 +48,29 @@ const CreateCategory = () => {
 			})
 		}
     }
-    
-    if (!token) {
-		return <Navigate to="/login" replace={true} />;
-	}
 
 	return (
-		<>
-			<CustomNavbar />
-			<Container>
-				<CustomBreadcrumb
-					secondText={"Categories"}
-					secondURL={"/categories"}
-					thirdText={"Create"}
+		<Container>
+			<CustomBreadcrumb
+				secondText={"Categories"}
+				secondURL={"/categories"}
+				thirdText={"Add"}
+			/>
+			{alert.status && (
+				<CustomAlert
+					className={"mt-5 mb-3 mx-auto w-100"}
+					variant={alert.variant}
+					message={alert.message}
 				/>
-				{alert.status && (
-					<CustomAlert
-						className={"mt-5 mb-3 mx-auto w-100"}
-						variant={alert.variant}
-						message={alert.message}
-					/>
-				)}
+			)}
 
-				<CategoryForm
-					form={form}
-					loading={loading}
-					handleChange={handleChange}
-					handleSubmit={handleSubmit}
-				/>
-			</Container>
-		</>
+			<CategoryForm
+				form={form}
+				loading={loading}
+				handleChange={handleChange}
+				handleSubmit={handleSubmit}
+			/>
+		</Container>
 	)
 }
 

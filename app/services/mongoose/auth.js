@@ -20,7 +20,9 @@ const signin = async (req) => {
         throw new Unauthorized(`Invalid credentials`);
     }
 
-    return createJWT({ payload: createToken(user) });
+    const token = createJWT({ payload: createToken(user) });
+
+    return { token, user };
 }
 
 export { signin };

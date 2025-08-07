@@ -1,11 +1,14 @@
-import axios from "axios";
-import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
 import { Card, Container } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { CustomAlert } from "../../components/Alert";
+import { login } from "../../redux/auth/action";
 import { LoginForm } from "./Form";
+import { postData } from "../../utils/fetch";
 
 const Login = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [form, setForm] = useState({
 		email: "",
@@ -31,12 +34,9 @@ const Login = () => {
 		setLoading(true);
 		const { email, password } = form;
 		try {
-			const response = await axios.post("/api/auth/signin", {
-				email,
-				password,
-			})
+			const response = await postData('/auth/signin', { email, password });
 
-			localStorage.setItem('token', response.data.data.token);
+			dispatch(login(response.data.data.token, response.data.data.role))
 			setLoading(false);
 			navigate("/");
 		} catch (error) {
@@ -49,11 +49,6 @@ const Login = () => {
 				variant: "danger",
 			})
 		}
-	}
-
-	const token = localStorage.getItem("token");
-	if (token) {
-		return <Navigate to="/" replace={true} />;
 	}
 
 	return (

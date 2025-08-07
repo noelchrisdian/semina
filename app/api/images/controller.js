@@ -3,7 +3,6 @@ import { createImage } from "../../services/mongoose/images.js";
 
 const create = async (req, res, next) => {
     try {
-        console.log(req.file);
         const image = await createImage(req);
         res.status(StatusCodes.CREATED).json({ data: image });
     } catch (error) {

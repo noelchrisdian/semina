@@ -1,15 +1,18 @@
-import { CategoryForm } from "./Form";
 import { Container } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { CategoryForm } from "./Form";
 import { CustomAlert } from "../../components/Alert";
 import { CustomBreadcrumb } from "../../components/Breadcrumb";
-import { CustomNavbar } from "../../components/Navbar";
-import { Navigate, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { getData, putData } from "../../utils/fetch";
+import { setNotif } from "../../redux/notif/action";
 
 const EditCategory = () => {
-    // const { categoryID } = useParams();
-    const token = localStorage.getItem('token');
+	const { categoryID } = useParams();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
 	const [form, setForm] = useState({
 		name: ""
 	})
@@ -24,10 +27,30 @@ const EditCategory = () => {
 		setForm({ ...form, [e.target.name]: e.target.value });
 	}
 
-	const handleSubmit = () => {
+	useEffect(() => {
+		const getCategory = async () => {
+			const response = await getData(`/categories/${categoryID}`);
+			setForm((prev) => {
+				return {
+					...prev,
+					name: response.data.data.name
+				}
+			})
+		}
+
+		getCategory();
+	}, [categoryID])
+
+	const handleSubmit = async () => {
 		setLoading(true);
 
 		try {
+			const response = await putData(`/categories/${categoryID}`, form);
+			dispatch(setNotif(
+				true,
+				'success',
+				`Successfully updated ${response.data.data.name} category`
+			))
 			navigate("/categories");
 			setLoading(false);
 		} catch (error) {
@@ -42,36 +65,29 @@ const EditCategory = () => {
 			})
 		}
     }
-    
-    if (!token) {
-		return <Navigate to="/login" replace={true} />;
-	}
 
 	return (
-		<>
-			<CustomNavbar />
-			<Container>
-				<CustomBreadcrumb
-					secondText={"Categories"}
-					secondURL={"/categories"}
-					thirdText={"Edit"}
+		<Container>
+			<CustomBreadcrumb
+				secondText={"Categories"}
+				secondURL={"/categories"}
+				thirdText={"Edit"}
+			/>
+			{alert.status && (
+				<CustomAlert
+					className={"mt-5 mb-3 mx-auto w-100"}
+					variant={alert.variant}
+					message={alert.message}
 				/>
-				{alert.status && (
-					<CustomAlert
-						className={"mt-5 mb-3 mx-auto"}
-						variant={alert.variant}
-						message={alert.message}
-					/>
-				)}
-				<CategoryForm
-					edit={true}
-					form={form}
-					loading={loading}
-					handleChange={handleChange}
-					handleSubmit={handleSubmit}
-				/>
-			</Container>
-		</>
+			)}
+			<CategoryForm
+				edit
+				form={form}
+				loading={loading}
+				handleChange={handleChange}
+				handleSubmit={handleSubmit}
+			/>
+		</Container>
 	)
 }
 

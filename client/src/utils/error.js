@@ -1,0 +1,5 @@
+const handleError = () => {
+
+}
+
+export { handleError };
