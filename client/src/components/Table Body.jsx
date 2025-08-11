@@ -33,9 +33,12 @@ const TableBody = ({
 										<td key={key}>
 											{key === "avatar" ? (
 												<Image
-													height={40}
-													width={40}
+													height={50}
+													width={50}
 													roundedCircle
+													style={{
+														objectFit: 'cover', objectPosition: 'center'
+													}}
 													src={`/api/${data[key]}`}
 												/>
 											) : key === "date" ? (
@@ -67,7 +70,7 @@ const TableBody = ({
 											variant="danger"
 											size={"sm"}
 											action={() => deleteAction(data._id)}>
-											Hapus
+											Delete
 										</CustomButton>
 									)}
 								</td>
@@ -78,7 +81,7 @@ const TableBody = ({
 			) : (
 				<tr>
 					<td colSpan={display.length + 1} style={{ textAlign: "center" }}>
-						Tidak Ditemukan Data
+						Data is not found
 					</td>
 				</tr>
 			)}

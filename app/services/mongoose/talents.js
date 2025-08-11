@@ -72,13 +72,14 @@ const updateTalent = async (req) => {
 
 const deleteTalent = async (req) => {
     const { id } = req.params;
-    const talent = await Talents.findOne({ _id: id, organizer: req.user.organizer });
-
+    const talent = await Talents.findOneAndDelete({
+        _id: id,
+        organizer: req.user.organizer
+    })
     if (!talent) {
-        throw new NotFound(`This talent doesn't exist`);
+        throw new NotFound(`This category doesn't exist`);
     }
 
-    await talent.remove();
     return talent;
 }
 

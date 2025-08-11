@@ -36,7 +36,7 @@ const fetchCategories = () => {
                 dispatch(clearNotif());
             }, 3000)
 
-            const response = await debounceFetch('/categories')
+            const response = await debounceFetch('categories')
             dispatch(successFetching({
                 categories: response.data.data
             }))
