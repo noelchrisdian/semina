@@ -1,12 +1,12 @@
 import { Container } from "react-bootstrap";
-import { CustomBreadcrumb } from "../../components/Breadcrumb";
-import { TalentForm } from "./Form";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { CustomAlert } from "../../components/Alert";
+import { CustomBreadcrumb } from "../../components/Breadcrumb";
 import { postData } from "../../utils/fetch";
 import { setNotif } from "../../redux/notif/action";
-import { CustomAlert } from "../../components/Alert";
+import { TalentForm } from "./Form";
 
 const CreateTalent = () => {
 	const dispatch = useDispatch();
@@ -76,30 +76,30 @@ const CreateTalent = () => {
 	}
 
 	const handleSubmit = async () => {
-        setLoading(true);
-        try {
-            const payload = {
-                name: form.name,
-                role: form.role,
-                image: form.file
-            }  
-            const response = await postData('/talents', payload)
-            dispatch(setNotif(
+		setLoading(true);
+		const payload = {
+			name: form.name,
+			role: form.role,
+			image: form.file,
+		}
+		const response = await postData("/talents", payload);
+		if (response?.data?.data) {
+			dispatch(setNotif(
                 true,
                 'success',
                 `Successfully added ${response.data.data.name} as talent`
             ))
             setLoading(false);
             navigate('/talents');
-        } catch (error) {
-            setLoading(false);
-		    setAlert({
-                ...alert,
-                status: true,
-                variant: "danger",
-                message: error.response.data.message
-		    })   
-        }
+		}
+
+		setLoading(false);
+		setAlert({
+			...alert,
+			status: true,
+			variant: "danger",
+			message: response?.response?.data.message,
+		})
 	}
 
 	return (

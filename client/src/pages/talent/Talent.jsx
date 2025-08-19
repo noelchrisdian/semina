@@ -65,7 +65,7 @@ const Talent = () => {
 		})
 		if (!result.isConfirmed) return;
 
-		const response = await deleteData(`/talents/${id}`);
+		const response = await deleteData(`talents/${id}`);
 		dispatch(
 			setNotif(
 				true,
@@ -91,7 +91,7 @@ const Talent = () => {
             
             <Search
                 query={talents.keyword}
-                handleChange={(e) => dispatch(setKeyword({keyword: e.target.value}))}
+                handleChange={(e) => dispatch(setKeyword({ keyword: e.target.value }))}
             />
 
 			{notif.status && (

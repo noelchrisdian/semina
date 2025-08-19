@@ -93,31 +93,29 @@ const EditTalent = () => {
 
     const handleSubmit = async () => {
         setLoading(true);
-
-        try {
-            const payload = {
-                name: form.name,
-                role: form.role,
-                image: form.file
-            }
-
-            const response = await putData(`talents/${talentID}`, payload);
-            dispatch(setNotif(
+        const payload = {
+			name: form.name,
+			role: form.role,
+			image: form.file,
+		}
+        const response = await putData(`talents/${talentID}`, payload);
+        if (response?.data?.data) {
+             dispatch(setNotif(
                 true,
                 'success',
                 `Successfully updated ${response.data.data.name}`
             ))
             setLoading(false);
             navigate('/talents');
-        } catch (error) {
-            setLoading(false);
-            setAlert({
-                ...alert,
-                status: true,
-                variant: 'danger',
-                message: error.response.data.message
-            })
         }
+
+        setLoading(false);
+		setAlert({
+			...alert,
+			status: true,
+			variant: "danger",
+			message: response?.response?.data?.message,
+		})
     }
 
     return (

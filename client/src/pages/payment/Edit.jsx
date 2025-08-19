@@ -93,13 +93,12 @@ const EditPayment = () => {
 
     const handleSubmit = async () => {
         setLoading(true);
-
-        try {
-            const payload = {
-                type: form.type,
-                image: form.file
-            }
-            const response = await putData(`payments/${paymentID}`, payload);
+        const payload = {
+			type: form.type,
+			image: form.file,
+		}
+        const response = await putData(`payments/${paymentID}`, payload);
+        if (response?.data?.data) {
             dispatch(setNotif(
                 true,
                 'success',
@@ -107,15 +106,15 @@ const EditPayment = () => {
             ))
             setLoading(false);
             navigate('/payments');
-        } catch (error) {
-            setLoading(false);
-            setAlert({
-                ...alert,
-                status: true,
-                variant: 'danger',
-                message: error.response?.data?.message
-            })
         }
+
+        setLoading(false);
+		setAlert({
+			...alert,
+			status: true,
+			variant: "danger",
+			message: response?.response?.data?.message,
+		})
     }
 
     return (

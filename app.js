@@ -1,3 +1,6 @@
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import logger from 'morgan';
 import express, { json, urlencoded } from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -11,11 +14,9 @@ import { router as authRouter } from './app/api/auth/router.js';
 import { router as orderRouter } from './app/api/orders/route.js';
 import { router as participantRouter } from './app/api/participants/router.js';
 import { router as paymentRouter } from './app/api/payments/router.js';
+import { router as refreshTokenRouter } from './app/api/refresh/router.js';
 import { errorHandler } from './app/middlewares/handle error.js';
 import { notFound } from './app/middlewares/not found.js';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import logger from 'morgan';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -46,6 +47,7 @@ app.use('/auth', authRouter);
 app.use('/orders', orderRouter);
 app.use('/participants', participantRouter);
 app.use('/payments', paymentRouter);
+app.use('/refresh-token', refreshTokenRouter);
 
 app.use(errorHandler);
 app.use(notFound);

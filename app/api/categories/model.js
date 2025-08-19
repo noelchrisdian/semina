@@ -12,8 +12,7 @@ const categorySchema = Schema({
         ref: 'Organizer',
         required: true
     }
-}, { timestamps: true }
-)
+}, { timestamps: true })
 
 const categoryModel = model('Category', categorySchema);
 

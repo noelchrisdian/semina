@@ -1,5 +1,6 @@
 import { BadRequest } from '../../errors/bad request.js';
-import { createJWT } from '../../utils/jwt.js';
+import { createJWT, createRefreshJWT } from '../../utils/jwt.js';
+import { createRefreshToken } from './refresh.js';
 import { createToken } from '../../utils/user token.js';
 import { Unauthorized } from '../../errors/unauthorized.js';
 import { userModel as Users } from "../../api/users/model.js";
@@ -22,7 +23,13 @@ const signin = async (req) => {
 
     const token = createJWT({ payload: createToken(user) });
 
-    return { token, user };
+    const refreshToken = createRefreshJWT({ payload: createToken(user) });
+    await createRefreshToken({
+        refreshToken,
+        user: user._id
+    })
+    
+    return { user, refreshToken, token };
 }
 
 export { signin };

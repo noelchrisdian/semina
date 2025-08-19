@@ -2,12 +2,14 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
+	accessAdmin,
 	accessCategories,
 	accessEvents,
 	accessOrders,
 	accessParticipants,
 	accessPayments,
-	accessTalents
+	accessTalents,
+	accessUsers
 } from "../utils/access";
 import { Navlink } from "./Nav Access";
 
@@ -59,6 +61,20 @@ const CustomNavbar = () => {
 					</Navlink>
 					<Navlink
 						role={role}
+						roles={accessUsers.read}
+						action={() => navigate('/users')}
+					>
+						Users
+					</Navlink>
+					<Navlink
+						role={role}
+						roles={accessAdmin.read}
+						action={() => navigate('/admin')}
+					>
+						Admin
+					</Navlink>
+					<Navlink
+						role={role}
 						roles={accessEvents.read}
 						action={() => navigate("/events")}
 					>
@@ -74,9 +90,9 @@ const CustomNavbar = () => {
 					<Navlink
 						role={role}
 						roles={accessOrders.read}
-						action={() => navigate("/transactions")}
+						action={() => navigate("/orders")}
 					>
-						Transactions
+						Orders
 					</Navlink>
 				</Nav>
 				<Nav className="justify-content-end">

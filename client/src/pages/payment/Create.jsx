@@ -75,24 +75,27 @@ const CreatePayment = () => {
 
     const handleSubmit = async () => {
         setLoading(true);
-
-        try {
-            const payload = {
-                type: form.type,
-                image: form.file
-            }
-            const response = await postData('payments', payload);
-            dispatch(setNotif(true, 'success', `Successfully added ${response.data.data.type} as payment method`))
-            setLoading(false);
-            navigate('/payments')
-        } catch (error) {
-            setLoading(false);
-            setAlert({
-                status: true,
-                variant: 'danger',
-                message: error.response?.data?.message
-            })
+        const payload = {
+            type: form.type,
+            image: form.file
         }
+        const response = await postData('payments', payload);
+        if (response?.data?.data) {
+            dispatch(setNotif(
+                true,
+                'success',
+                `Successfully added ${response.data.data.type} as payment method`
+            ))
+            setLoading(false);
+            navigate('/payments');
+        }
+       
+        setLoading(false);
+		setAlert({
+			status: true,
+			variant: "danger",
+			message: response?.response?.data?.message
+		})
     }
 
     return (

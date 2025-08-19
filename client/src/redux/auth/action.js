@@ -1,9 +1,10 @@
 import { USER_LOGIN, USER_LOGOUT } from "./constants"
 
-const login = (token, role ) => {
+const login = (token, refreshToken, role ) => {
     return {
         type: USER_LOGIN,
         token,
+        refreshToken,
         role
     }
 }

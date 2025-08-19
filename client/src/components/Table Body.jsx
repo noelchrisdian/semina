@@ -37,7 +37,8 @@ const TableBody = ({
 													width={50}
 													roundedCircle
 													style={{
-														objectFit: 'cover', objectPosition: 'center'
+														objectFit: "cover",
+														objectPosition: "center",
 													}}
 													src={`/api/${data[key]}`}
 												/>
@@ -76,7 +77,7 @@ const TableBody = ({
 								</td>
 							)}
 						</tr>
-					)
+					);
 				})
 			) : (
 				<tr>

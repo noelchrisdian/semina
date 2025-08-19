@@ -40,11 +40,27 @@ const accessOrders = {
     delete: ['organizer', 'admin', 'owner']
 }
 
+const accessUsers = {
+    read: ['owner'],
+    create: ['owner'],
+    update: ['owner'],
+    delete: ['owner']
+}
+
+const accessAdmin = {
+    read: ['organizer'],
+    create: ['organizer'],
+    update: ['organizer'],
+    delete: ['organizer']
+}
+
 export {
+    accessAdmin,
     accessCategories,
     accessEvents,
     accessOrders,
     accessParticipants,
     accessPayments,
-    accessTalents
+    accessTalents,
+    accessUsers
 }

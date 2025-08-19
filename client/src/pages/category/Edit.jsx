@@ -43,9 +43,8 @@ const EditCategory = () => {
 
 	const handleSubmit = async () => {
 		setLoading(true);
-
-		try {
-			const response = await putData(`/categories/${categoryID}`, form);
+		const response = await putData(`/categories/${categoryID}`, form);
+		if (response?.data?.data) {
 			dispatch(setNotif(
 				true,
 				'success',
@@ -53,17 +52,17 @@ const EditCategory = () => {
 			))
 			navigate("/categories");
 			setLoading(false);
-		} catch (error) {
-			setLoading(false);
-			setAlert((prev) => {
-				return {
-					...prev,
-					status: true,
-					variant: "danger",
-					message: error?.response?.data?.message
-				}
-			})
 		}
+
+		setLoading(false);
+		setAlert((alert) => {
+			return {
+				...alert,
+				status: true,
+				variant: "danger",
+				message: response?.response?.data?.message
+			}
+		})
     }
 
 	return (

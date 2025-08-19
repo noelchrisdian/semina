@@ -96,7 +96,7 @@ const findEvent = async (req) => {
         throw new NotFound(`This event doesn't exist`);
     }
 
-    return event
+    return event;
 }
 
 const updateEvent = async (req) => {

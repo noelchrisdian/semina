@@ -1,4 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css'; 
 import { createRoot } from 'react-dom/client';
 import { Provider } from "react-redux";
 import { StrictMode } from 'react';

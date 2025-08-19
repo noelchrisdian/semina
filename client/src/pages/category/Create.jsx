@@ -28,9 +28,8 @@ const CreateCategory = () => {
 
 	const handleSubmit = async () => {
 		setLoading(true);
-
-		try {
-			const response = await postData('/categories', form);
+		const response = await postData('/categories', form);
+		if (response?.data?.data) {
 			dispatch(setNotif(
 				true,
 				'success',
@@ -38,15 +37,15 @@ const CreateCategory = () => {
 			))
 			navigate("/categories");
 			setLoading(false);
-		} catch (error) {
-			setLoading(false);
-			setAlert({
-				...alert,
-				status: true,
-				variant: "danger",
-				message: error?.response?.data?.message
-			})
 		}
+
+		setLoading(false);
+		setAlert({
+			...alert,
+			status: true,
+			variant: "danger",
+			message: response?.response?.data?.message
+		})
     }
 
 	return (

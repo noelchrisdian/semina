@@ -40,7 +40,7 @@ const eventSchema = Schema({
         required: [true, `Tagline is required`]
     },
     keyPoint: {
-        type: String
+        type: [String]
     },
     venueName: {
         type: String,

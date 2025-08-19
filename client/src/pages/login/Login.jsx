@@ -33,22 +33,23 @@ const Login = () => {
 	const handleSubmit = async () => {
 		setLoading(true);
 		const { email, password } = form;
-		try {
-			const response = await postData('/auth/signin', { email, password });
-
-			dispatch(login(response.data.data.token, response.data.data.role))
+		const response = await postData("/auth/signin", { email, password });
+		if (response?.data?.data) {
+			dispatch(login(
+				response.data.data.token,
+				response.data.data.refreshToken,
+				response.data.data.role
+			))
 			setLoading(false);
 			navigate("/");
-		} catch (error) {
-			setLoading(false);
-			setAlert({
-				status: true,
-				message:
-					error?.response?.data?.message ||
-					"Something went wrong, please try again later",
-				variant: "danger",
-			})
 		}
+
+		setLoading(false);
+		setAlert({
+			status: true,
+			variant: "danger",
+			message: response?.response?.data?.message || "Something went wrong, please try again later"
+		})
 	}
 
 	return (

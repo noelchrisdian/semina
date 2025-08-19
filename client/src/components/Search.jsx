@@ -10,6 +10,10 @@ const Search = ({ disabled, query, handleChange }) => {
                 value={query}
                 name="query"
                 onChange={handleChange}
+                style={{
+                    pointerEvents: disabled ? 'none' : 'auto',
+                    cursor: disabled ? 'pointer' : 'text'
+                }}
             />
         </Form.Group>
     )
