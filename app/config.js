@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const urlDB = process.env.URL_MONGODB_DEV;
-const jwtExpiration = '1m';
+const jwtExpiration = '10m';
 const jwtRefreshExpiration = '24h';
 const jwtSecret = 'jwtSecret';
 const gmail = 'pxperfect00@gmail.com'

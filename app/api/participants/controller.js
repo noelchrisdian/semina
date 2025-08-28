@@ -1,5 +1,14 @@
 import { StatusCodes } from "http-status-codes";
-import { activateParticipant, getEvents, getEvent, getOrders, loginParticipant, registerParticipant, checkoutOrder } from "../../services/mongoose/participants.js";
+import {
+    activateParticipant,
+    getEvents,
+    getEvent,
+    getOrders,
+    loginParticipant,
+    registerParticipant,
+    checkoutOrder,
+    getPayments
+} from "../../services/mongoose/participants.js";
 
 const signup = async (req, res, next) => {
     try {
@@ -16,7 +25,7 @@ const signin = async (req, res, next) => {
     try {
         const result = await loginParticipant(req);
         res.status(StatusCodes.OK).json({
-            data: result
+            data: {token: result}
         })
     } catch (error) {
         next(error);
@@ -78,12 +87,25 @@ const checkout = async (req, res, next) => {
     }
 }
 
+const payments = async (req, res, next) => {
+    try {
+        const result = await getPayments(req);
+
+        res.status(StatusCodes.OK).json({
+            data: result
+        })   
+    } catch (error) {
+        next(error);
+    }
+}
+
 export {
     active,
     checkout,
     getLandingPages,
     getDetailPage,
     getDashboard,
+    payments,
     signin,
     signup
 }

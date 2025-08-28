@@ -1,7 +1,7 @@
+import mustache from "mustache";
 import { createTransport } from "nodemailer";
 import { readFileSync } from 'fs';
 import { gmail, password } from "../../config.js";
-import mustache from "mustache";
 
 const transporter = createTransport({
     host: 'smtp.gmail.com',

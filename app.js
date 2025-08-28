@@ -11,7 +11,7 @@ import { router as eventRouter } from './app/api/events/router.js';
 import { router as organizerRouter } from './app/api/organizers/router.js';
 import { router as userRouter } from './app/api/users/router.js';
 import { router as authRouter } from './app/api/auth/router.js';
-import { router as orderRouter } from './app/api/orders/route.js';
+import { router as orderRouter } from './app/api/orders/router.js';
 import { router as participantRouter } from './app/api/participants/router.js';
 import { router as paymentRouter } from './app/api/payments/router.js';
 import { router as refreshTokenRouter } from './app/api/refresh/router.js';

@@ -101,7 +101,7 @@ const getEvent = async (req) => {
     const { id } = req.params;
     const event = await Events.findOne({ _id: id })
     .populate('category')
-    .populate('talent')
+    .populate({path: 'talent', populate: 'image'})
     .populate('image')
     if (!event) {
         throw new NotFound(`This event doesn't exist`);
@@ -181,12 +181,21 @@ const checkoutOrder = async (req) => {
     })
 }
 
+const getPayments = async (req) => {
+    const { organizer } = req.params;
+
+    return Payments
+        .find({ organizer })
+        .populate({ path: 'image', select: '_id name' })
+}
+
 export {
     activateParticipant,
     checkoutOrder,
     getEvents,
     getEvent,
     getOrders,
+    getPayments,
     loginParticipant,
     registerParticipant
 }
