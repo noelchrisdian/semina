@@ -12,9 +12,21 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_API_URL,
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: (path) => path.replace(/^\/api/, '')
         }
       }
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+          }
+        }
+      },
+      chunkSizeWarningLimit: 600
     }
   }
 })
